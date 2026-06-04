@@ -1,49 +1,44 @@
 import { NextResponse } from 'next/server';
-import { getDb, saveDb } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabaseServer';
 
 export const dynamic = 'force-dynamic';
 
-// GET: obtener estado actual de triviarteEnabled para todos los grupos
 export async function GET() {
-  const db = getDb();
+  const { data, error } = await supabaseAdmin.from('grupos').select('id, triviarte_enabled');
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
   const states: Record<string, boolean> = {};
-  for (const [key, grupo] of Object.entries(db.grupos)) {
-    states[key] = (grupo as any).triviarteEnabled === true;
+  for (const g of data || []) {
+    states[g.id] = g.triviarte_enabled || false;
   }
-  return NextResponse.json({ success: true, states });
+  return NextResponse.json({ states });
 }
 
-// POST: toggle (cambiar) el estado de triviarteEnabled para un grupo
 export async function POST(request: Request) {
   try {
     const { grupoId, enabled } = await request.json();
-    
-    if (!grupoId || typeof enabled !== 'boolean') {
-      return NextResponse.json({ success: false, error: 'grupoId y enabled son requeridos' }, { status: 400 });
+    if (!grupoId || enabled === undefined) {
+      return NextResponse.json({ success: false, error: 'grupoId y enabled requeridos' }, { status: 400 });
     }
-    
-    const db = getDb();
-    
-    if (!db.grupos[grupoId]) {
+
+    const { data: existing } = await supabaseAdmin
+      .from('grupos').select('id').eq('id', grupoId).single();
+    if (!existing) {
       return NextResponse.json({ success: false, error: 'Grupo no encontrado' }, { status: 404 });
     }
-    
-    db.grupos[grupoId].triviarteEnabled = enabled;
-    saveDb(db);
-    
-    // Devolver el estado actualizado de todos los grupos
+
+    const { error } = await supabaseAdmin
+      .from('grupos').update({ triviarte_enabled: enabled }).eq('id', grupoId);
+    if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+
+    // Retornar estados actualizados de todos los grupos
+    const { data: allGrupos } = await supabaseAdmin.from('grupos').select('id, triviarte_enabled');
     const states: Record<string, boolean> = {};
-    for (const [key, grupo] of Object.entries(db.grupos)) {
-      states[key] = (grupo as any).triviarteEnabled === true;
+    for (const g of allGrupos || []) {
+      states[g.id] = g.triviarte_enabled || false;
     }
-    
-    return NextResponse.json({ 
-      success: true, 
-      grupoId,
-      enabled,
-      states
-    });
-  } catch (error) {
-    return NextResponse.json({ success: false, error: 'Error interno' }, { status: 500 });
+    return NextResponse.json({ success: true, states });
+  } catch {
+    return NextResponse.json({ success: false, error: 'Datos inválidos' }, { status: 400 });
   }
 }

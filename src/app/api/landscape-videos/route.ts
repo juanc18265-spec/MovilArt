@@ -1,31 +1,32 @@
 import { NextResponse } from 'next/server';
-import { getDb, saveDb } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabaseServer';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const db = getDb();
-  return NextResponse.json(db.landscapeVideos || {});
+  const { data, error } = await supabaseAdmin.from('landscape_videos').select('*');
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  // Convertir a Record<string, string> igual que antes
+  const result: Record<string, string> = {};
+  for (const row of data || []) {
+    result[row.landscape_id] = row.video_url;
+  }
+  return NextResponse.json(result);
 }
 
 export async function POST(request: Request) {
   try {
-    const data = await request.json();
-    const { landscapeId, videoUrl } = data;
-
-    if (!landscapeId || videoUrl === undefined) {
-      return NextResponse.json({ success: false, error: 'landscapeId and videoUrl are required' }, { status: 400 });
+    const { landscapeId, videoUrl } = await request.json();
+    if (!landscapeId || !videoUrl) {
+      return NextResponse.json({ success: false, error: 'landscapeId y videoUrl requeridos' }, { status: 400 });
     }
-
-    const db = getDb();
-    if (!db.landscapeVideos) {
-      db.landscapeVideos = {};
-    }
-    db.landscapeVideos[landscapeId] = videoUrl;
-    saveDb(db);
-
-    return NextResponse.json({ success: true, landscapeVideos: db.landscapeVideos });
-  } catch (error) {
-    return NextResponse.json({ success: false, error: 'Invalid data' }, { status: 400 });
+    const { error } = await supabaseAdmin
+      .from('landscape_videos')
+      .upsert({ landscape_id: landscapeId, video_url: videoUrl });
+    if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json({ success: false, error: 'Datos inválidos' }, { status: 400 });
   }
 }

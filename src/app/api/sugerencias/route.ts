@@ -1,76 +1,63 @@
 import { NextResponse } from 'next/server';
-import { getDb, saveDb } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabaseServer';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const db = getDb();
-  return NextResponse.json(db.sugerencias);
+  const { data, error } = await supabaseAdmin
+    .from('sugerencias')
+    .select('*')
+    .order('date', { ascending: false });
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json(data || []);
 }
 
 export async function POST(request: Request) {
   try {
-    const data = await request.json();
-    if (!data.message) {
-      return NextResponse.json({ success: false, error: 'Message is required' }, { status: 400 });
+    const body = await request.json();
+    if (!body.message) {
+      return NextResponse.json({ success: false, error: 'Mensaje requerido' }, { status: 400 });
     }
-
-    const db = getDb();
-    
-    const newSugerencia = {
+    const newSug = {
       id: Math.random().toString(36).substring(2, 9),
-      name: data.name || 'Anónimo',
-      message: data.message,
-      date: new Date().toISOString()
+      name: body.name || 'Anónimo',
+      message: body.message,
+      date: new Date().toISOString(),
+      archived: false,
     };
-    
-    db.sugerencias.push(newSugerencia);
-    saveDb(db);
-    
-    return NextResponse.json({ success: true, sugerencia: newSugerencia });
-  } catch (error) {
-    return NextResponse.json({ success: false, error: 'Invalid data' }, { status: 400 });
+    const { data, error } = await supabaseAdmin.from('sugerencias').insert(newSug).select().single();
+    if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: true, sugerencia: data }, { status: 201 });
+  } catch {
+    return NextResponse.json({ success: false, error: 'Datos inválidos' }, { status: 400 });
   }
 }
 
 export async function DELETE(request: Request) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get('id');
-    if (!id) {
-      return NextResponse.json({ success: false, error: 'ID is required' }, { status: 400 });
-    }
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get('id');
+  if (!id) return NextResponse.json({ success: false, error: 'ID requerido' }, { status: 400 });
 
-    const db = getDb();
-    db.sugerencias = db.sugerencias.filter(s => s.id !== id);
-    saveDb(db);
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    return NextResponse.json({ success: false, error: 'Error deleting suggestion' }, { status: 500 });
-  }
+  const { error } = await supabaseAdmin.from('sugerencias').delete().eq('id', id);
+  if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  return NextResponse.json({ success: true });
 }
 
 export async function PUT(request: Request) {
   try {
-    const data = await request.json();
-    if (!data.id) {
-      return NextResponse.json({ success: false, error: 'ID is required' }, { status: 400 });
-    }
+    const body = await request.json();
+    if (!body.id) return NextResponse.json({ success: false, error: 'ID requerido' }, { status: 400 });
 
-    const db = getDb();
-    const index = db.sugerencias.findIndex(s => s.id === data.id);
-    if (index !== -1) {
-      db.sugerencias[index] = {
-        ...db.sugerencias[index],
-        archived: data.archived !== undefined ? data.archived : !db.sugerencias[index].archived
-      };
-      saveDb(db);
-      return NextResponse.json({ success: true, sugerencia: db.sugerencias[index] });
-    }
+    const { data: existing } = await supabaseAdmin
+      .from('sugerencias').select('archived').eq('id', body.id).single();
+    if (!existing) return NextResponse.json({ success: false, error: 'No encontrada' }, { status: 404 });
 
-    return NextResponse.json({ success: false, error: 'Suggestion not found' }, { status: 404 });
-  } catch (error) {
-    return NextResponse.json({ success: false, error: 'Error updating suggestion' }, { status: 500 });
+    const newArchived = body.archived !== undefined ? body.archived : !existing.archived;
+    const { data, error } = await supabaseAdmin
+      .from('sugerencias').update({ archived: newArchived }).eq('id', body.id).select().single();
+    if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ success: true, sugerencia: data });
+  } catch {
+    return NextResponse.json({ success: false, error: 'Datos inválidos' }, { status: 400 });
   }
 }

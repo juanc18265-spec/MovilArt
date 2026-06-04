@@ -1,37 +1,27 @@
 const { Server } = require('socket.io');
-const fs = require('fs');
-const path = require('path');
+const { createClient } = require('@supabase/supabase-js');
 
-const dbPath = path.join(__dirname, '..', 'data', 'db.json');
+// Cliente Supabase server-side para el WebSocket
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+const supabase = createClient(supabaseUrl, serviceRoleKey);
 
-function saveSurveyToHistory(state) {
+async function saveSurveyToHistory(state) {
   try {
     if (!state || !state.question || !state.active) return;
-    
-    let dbData = { grupos: {}, sugerencias: [], evaluaciones: [], encuestas: [] };
-    if (fs.existsSync(dbPath)) {
-      const fileContent = fs.readFileSync(dbPath, 'utf-8');
-      dbData = JSON.parse(fileContent);
-    }
-    
-    if (!dbData.encuestas) {
-      dbData.encuestas = [];
-    }
-    
     const historyItem = {
-      id: state.id || Math.random().toString(),
+      id: state.id || Math.random().toString(36).substring(2, 9),
       question: state.question,
       type: state.type,
       duration: state.duration,
       options: state.options || [],
       date: new Date().toISOString(),
       votes: { ...state.votes },
-      totalVotes: state.votedUsers ? state.votedUsers.length : 0
+      total_votes: state.votedUsers ? state.votedUsers.length : 0,
     };
-    
-    dbData.encuestas.unshift(historyItem);
-    fs.writeFileSync(dbPath, JSON.stringify(dbData, null, 2), 'utf-8');
-    console.log('📝 Encuesta guardada en el historial con éxito:', historyItem.question);
+    const { error } = await supabase.from('encuestas').insert(historyItem);
+    if (error) console.error('Error al guardar encuesta en Supabase:', error.message);
+    else console.log('📝 Encuesta guardada en Supabase:', historyItem.question);
   } catch (err) {
     console.error('Error al guardar encuesta en el historial:', err);
   }
@@ -39,7 +29,7 @@ function saveSurveyToHistory(state) {
 
 function initializeWebSockets(server) {
   const io = new Server(server, { cors: { origin: '*' } });
-  
+
   // State Machine del Juego en Memoria
   const gameState = {
     players: [],
@@ -52,8 +42,8 @@ function initializeWebSockets(server) {
   const surveyState = {
     active: false,
     id: null,
-    question: "",
-    type: "", // 'choice' o 'rating'
+    question: '',
+    type: '', // 'choice' o 'rating'
     duration: 30,
     options: [],
     endsAt: null,
@@ -61,19 +51,21 @@ function initializeWebSockets(server) {
     votedUsers: []
   };
 
-  io.on('connection', (socket) => {
+  io.on('connection', async (socket) => {
     console.log('🔌 Nuevo cliente conectado:', socket.id);
-    
+
     // Enviar estado de encuesta activa si existe al conectarse
     socket.emit('active_survey_state', surveyState);
 
-    // Enviar estado actual de evaluaciones al cliente que se conecta
+    // Enviar estado actual de evaluaciones desde Supabase
     try {
-      const currentDb = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
-      if (currentDb.grupos) {
+      const { data: grupos, error } = await supabase
+        .from('grupos')
+        .select('id, triviarte_enabled');
+      if (!error && grupos) {
         const evaluacionStates = {};
-        for (const [key, grupo] of Object.entries(currentDb.grupos)) {
-          evaluacionStates[key] = grupo.triviarteEnabled || false;
+        for (const g of grupos) {
+          evaluacionStates[g.id] = g.triviarte_enabled || false;
         }
         socket.emit('evaluacion_states_sync', evaluacionStates);
         console.log('📤 Estados de evaluación enviados al cliente:', socket.id, evaluacionStates);
@@ -96,7 +88,7 @@ function initializeWebSockets(server) {
       }
 
       surveyState.active = true;
-      surveyState.id = data.id || Math.random().toString();
+      surveyState.id = data.id || Math.random().toString(36).substring(2, 9);
       surveyState.question = data.question;
       surveyState.type = data.type;
       surveyState.duration = data.duration;
@@ -107,14 +99,9 @@ function initializeWebSockets(server) {
 
       // Inicializar votos en cero
       if (data.type === 'choice') {
-        surveyState.options.forEach(opt => {
-          surveyState.votes[opt] = 0;
-        });
+        surveyState.options.forEach(opt => { surveyState.votes[opt] = 0; });
       } else if (data.type === 'rating') {
-        const emojis = ['🤩', '😊', '😐', '😢', '😡'];
-        emojis.forEach(emo => {
-          surveyState.votes[emo] = 0;
-        });
+        ['🤩', '😊', '😐', '😢', '😡'].forEach(emo => { surveyState.votes[emo] = 0; });
       }
 
       console.log('📡 Emitiendo survey_started a todos:', surveyState);
@@ -134,7 +121,7 @@ function initializeWebSockets(server) {
     socket.on('submit_vote', (data) => {
       console.log('🗳️ Servidor recibió submit_vote:', data, 'de socket:', socket.id);
       if (!surveyState.active || surveyState.id !== data.surveyId) return;
-      if (surveyState.votedUsers.includes(socket.id)) return; // Evitar doble voto por socket
+      if (surveyState.votedUsers.includes(socket.id)) return;
 
       surveyState.votedUsers.push(socket.id);
       const voteVal = data.vote;
@@ -167,15 +154,10 @@ function initializeWebSockets(server) {
         enabled: data.enabled
       });
     });
-    
+
     socket.on('join_game', (data) => {
       console.log('🎮 Jugador unido al juego:', data.name, 'socket:', socket.id);
-      gameState.players.push({
-        id: socket.id,
-        name: data.name,
-        position: 0,
-        inJail: false
-      });
+      gameState.players.push({ id: socket.id, name: data.name, position: 0, inJail: false });
       io.emit('update_state', { ...gameState, currentTurn: gameState.players[gameState.currentTurnIndex]?.id });
     });
 
@@ -185,13 +167,10 @@ function initializeWebSockets(server) {
 
       const dice = Math.floor(Math.random() * 6) + 1;
       const player = gameState.players[playerIndex];
-
-      // Casillas Especiales: 5, 10, 15 (Micro-Retos Artísticos)
       const newPos = player.position + dice;
       player.position = newPos;
 
       if ([5, 10, 15].includes(newPos) || player.inJail) {
-        // Disparar reto artístico de 10 segundos
         io.emit('trigger_challenge', {
           id: 'chal-001',
           art_discipline: 'Literature',
@@ -199,23 +178,18 @@ function initializeWebSockets(server) {
           time_limit_seconds: 10
         });
       } else {
-        // Siguiente turno
         gameState.currentTurnIndex = (gameState.currentTurnIndex + 1) % gameState.players.length;
       }
-      
       io.emit('update_state', { ...gameState, currentTurn: gameState.players[gameState.currentTurnIndex]?.id });
     });
 
     socket.on('submit_challenge', (data) => {
-      // Validación simplificada del reto (Aquí conectaría con IA o Admin)
-      const success = data.answer.length > 5; 
+      const success = data.answer.length > 5;
       const playerIndex = gameState.players.findIndex(p => p.id === socket.id);
-      
       if (success && gameState.players[playerIndex]) {
         gameState.players[playerIndex].inJail = false;
-        gameState.players[playerIndex].position += 2; // Premio por reto
+        gameState.players[playerIndex].position += 2;
       }
-      
       gameState.currentTurnIndex = (gameState.currentTurnIndex + 1) % gameState.players.length;
       io.emit('update_state', { ...gameState, currentTurn: gameState.players[gameState.currentTurnIndex]?.id });
     });

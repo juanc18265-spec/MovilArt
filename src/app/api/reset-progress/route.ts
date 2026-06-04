@@ -1,27 +1,23 @@
 import { NextResponse } from 'next/server';
-import { getDb, saveDb } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabaseServer';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const db = getDb();
-  return NextResponse.json({ resetToken: db.resetToken || "INITIAL_TOKEN_2026" });
+  const { data, error } = await supabaseAdmin
+    .from('app_settings')
+    .select('value')
+    .eq('key', 'resetToken')
+    .single();
+  if (error) return NextResponse.json({ resetToken: 'INITIAL_TOKEN_2026' });
+  return NextResponse.json({ resetToken: data?.value || 'INITIAL_TOKEN_2026' });
 }
 
 export async function POST() {
-  try {
-    const db = getDb();
-    
-    // Generar un nuevo token de reinicio al azar
-    const newToken = "RESET_" + Math.random().toString(36).substring(2, 9).toUpperCase() + "_" + Date.now();
-    db.resetToken = newToken;
-    
-    // Opcional: Al resetear remotamente todo, también vaciamos la lista de calificaciones si el profesor lo decide.
-    // Para ser prudentes, solo modificamos el token para forzar el reinicio local en el navegador del alumno.
-    saveDb(db);
-    
-    return NextResponse.json({ success: true, resetToken: newToken });
-  } catch (error) {
-    return NextResponse.json({ success: false, error: 'Error generating reset token' }, { status: 500 });
-  }
+  const newToken = `RESET_${Math.random().toString(36).substring(2, 9).toUpperCase()}_${Date.now()}`;
+  const { error } = await supabaseAdmin
+    .from('app_settings')
+    .upsert({ key: 'resetToken', value: newToken });
+  if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  return NextResponse.json({ success: true, resetToken: newToken });
 }

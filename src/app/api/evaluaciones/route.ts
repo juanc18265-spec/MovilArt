@@ -1,83 +1,92 @@
 import { NextResponse } from 'next/server';
-import { getDb, saveDb } from '@/lib/db';
+import { supabaseAdmin } from '@/lib/supabaseServer';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const db = getDb();
-  return NextResponse.json(db.evaluaciones || []);
+  const { data, error } = await supabaseAdmin
+    .from('evaluaciones')
+    .select('*')
+    .order('date', { ascending: false });
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  // Convertir snake_case → camelCase para compatibilidad con el frontend
+  const mapped = (data || []).map((ev) => ({
+    id: ev.id,
+    studentName: ev.student_name,
+    grupoId: ev.grupo_id,
+    grupoName: ev.grupo_name,
+    points: ev.points,
+    heartsLeft: ev.hearts_left,
+    date: ev.date,
+    archived: ev.archived,
+  }));
+  return NextResponse.json(mapped);
 }
 
 export async function POST(request: Request) {
   try {
-    const data = await request.json();
-    if (!data.studentName || !data.grupoId) {
-      return NextResponse.json({ success: false, error: 'Student name and Group ID are required' }, { status: 400 });
+    const body = await request.json();
+    if (!body.studentName || !body.grupoId) {
+      return NextResponse.json({ success: false, error: 'Nombre y grupoId requeridos' }, { status: 400 });
     }
-
-    const db = getDb();
-    if (!db.evaluaciones) db.evaluaciones = [];
-
-    const newEvaluacion = {
+    const newEv = {
       id: Math.random().toString(36).substring(2, 9),
-      studentName: data.studentName,
-      grupoId: data.grupoId,
-      grupoName: data.grupoName || data.grupoId,
-      points: data.points || 0,
-      heartsLeft: data.heartsLeft !== undefined ? data.heartsLeft : 7,
+      student_name: body.studentName,
+      grupo_id: body.grupoId,
+      grupo_name: body.grupoName || '',
+      points: body.points || 0,
+      hearts_left: body.heartsLeft !== undefined ? body.heartsLeft : 7,
       date: new Date().toISOString(),
-      archived: false
+      archived: false,
     };
-
-    db.evaluaciones.push(newEvaluacion);
-    saveDb(db);
-
-    return NextResponse.json({ success: true, evaluacion: newEvaluacion });
-  } catch (error) {
-    return NextResponse.json({ success: false, error: 'Invalid data' }, { status: 400 });
+    const { data, error } = await supabaseAdmin.from('evaluaciones').insert(newEv).select().single();
+    if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({
+      success: true,
+      evaluacion: {
+        id: data.id, studentName: data.student_name, grupoId: data.grupo_id,
+        grupoName: data.grupo_name, points: data.points, heartsLeft: data.hearts_left,
+        date: data.date, archived: data.archived,
+      },
+    }, { status: 201 });
+  } catch {
+    return NextResponse.json({ success: false, error: 'Datos inválidos' }, { status: 400 });
   }
 }
 
 export async function DELETE(request: Request) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get('id');
-    if (!id) {
-      return NextResponse.json({ success: false, error: 'ID is required' }, { status: 400 });
-    }
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get('id');
+  if (!id) return NextResponse.json({ success: false, error: 'ID requerido' }, { status: 400 });
 
-    const db = getDb();
-    if (!db.evaluaciones) db.evaluaciones = [];
-    db.evaluaciones = db.evaluaciones.filter(e => e.id !== id);
-    saveDb(db);
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    return NextResponse.json({ success: false, error: 'Error deleting evaluation' }, { status: 500 });
-  }
+  const { error } = await supabaseAdmin.from('evaluaciones').delete().eq('id', id);
+  if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  return NextResponse.json({ success: true });
 }
 
 export async function PUT(request: Request) {
   try {
-    const data = await request.json();
-    if (!data.id) {
-      return NextResponse.json({ success: false, error: 'ID is required' }, { status: 400 });
-    }
+    const body = await request.json();
+    if (!body.id) return NextResponse.json({ success: false, error: 'ID requerido' }, { status: 400 });
 
-    const db = getDb();
-    if (!db.evaluaciones) db.evaluaciones = [];
-    const index = db.evaluaciones.findIndex(e => e.id === data.id);
-    if (index !== -1) {
-      db.evaluaciones[index] = {
-        ...db.evaluaciones[index],
-        archived: data.archived !== undefined ? data.archived : !db.evaluaciones[index].archived
-      };
-      saveDb(db);
-      return NextResponse.json({ success: true, evaluacion: db.evaluaciones[index] });
-    }
+    const { data: existing } = await supabaseAdmin
+      .from('evaluaciones').select('archived').eq('id', body.id).single();
+    if (!existing) return NextResponse.json({ success: false, error: 'No encontrada' }, { status: 404 });
 
-    return NextResponse.json({ success: false, error: 'Evaluation not found' }, { status: 404 });
-  } catch (error) {
-    return NextResponse.json({ success: false, error: 'Error updating evaluation' }, { status: 500 });
+    const newArchived = body.archived !== undefined ? body.archived : !existing.archived;
+    const { data, error } = await supabaseAdmin
+      .from('evaluaciones').update({ archived: newArchived }).eq('id', body.id).select().single();
+    if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json({
+      success: true,
+      evaluacion: {
+        id: data.id, studentName: data.student_name, grupoId: data.grupo_id,
+        grupoName: data.grupo_name, points: data.points, heartsLeft: data.hearts_left,
+        date: data.date, archived: data.archived,
+      },
+    });
+  } catch {
+    return NextResponse.json({ success: false, error: 'Datos inválidos' }, { status: 400 });
   }
 }

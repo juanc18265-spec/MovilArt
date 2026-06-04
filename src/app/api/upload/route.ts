@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { supabaseAdmin } from '@/lib/supabaseServer';
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(request: Request) {
   try {
@@ -8,29 +9,31 @@ export async function POST(request: Request) {
     const file = formData.get('file') as File | null;
 
     if (!file) {
-      return NextResponse.json({ success: false, error: 'No file provided' }, { status: 400 });
+      return NextResponse.json({ success: false, error: 'No se recibió archivo' }, { status: 400 });
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const timestamp = Date.now();
+    const ext = file.name.includes('.') ? file.name.split('.').pop() : 'bin';
+    const filename = `upload_${timestamp}.${ext}`;
 
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
+    // Subir a Supabase Storage (bucket: 'uploads')
+    const { error } = await supabaseAdmin.storage
+      .from('uploads')
+      .upload(filename, buffer, {
+        contentType: file.type || 'application/octet-stream',
+        upsert: false,
+      });
+
+    if (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 
-    // Clean up filename to prevent collisions and bad characters
-    const ext = path.extname(file.name);
-    const baseName = path.basename(file.name, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
-    const uniqueName = `${baseName}_${Date.now()}${ext}`;
-    const filePath = path.join(uploadsDir, uniqueName);
-
-    fs.writeFileSync(filePath, buffer);
-
-    const fileUrl = `/uploads/${uniqueName}`;
-    return NextResponse.json({ success: true, url: fileUrl });
-  } catch (error: any) {
-    console.error('Upload error:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    // Obtener URL pública
+    const { data: urlData } = supabaseAdmin.storage.from('uploads').getPublicUrl(filename);
+    return NextResponse.json({ success: true, url: urlData.publicUrl });
+  } catch (err) {
+    console.error('Error en upload:', err);
+    return NextResponse.json({ success: false, error: 'Error al procesar el archivo' }, { status: 500 });
   }
 }
