@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseServer';
+import { getAdminSession } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
   const { data, error } = await supabaseAdmin
     .from('evaluaciones')
     .select('*')
@@ -56,6 +59,9 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ success: false, error: 'No autorizado' }, { status: 401 });
+
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
   if (!id) return NextResponse.json({ success: false, error: 'ID requerido' }, { status: 400 });
@@ -67,6 +73,9 @@ export async function DELETE(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    const session = await getAdminSession();
+    if (!session) return NextResponse.json({ success: false, error: 'No autorizado' }, { status: 401 });
+
     const body = await request.json();
     if (!body.id) return NextResponse.json({ success: false, error: 'ID requerido' }, { status: 400 });
 

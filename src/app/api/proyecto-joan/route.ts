@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseServer';
+import { getAdminSession } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,6 +16,9 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const session = await getAdminSession();
+    if (!session) return NextResponse.json({ success: false, error: 'No autorizado' }, { status: 401 });
+
     const { url } = await request.json();
     if (url === undefined) {
       return NextResponse.json({ success: false, error: 'URL requerida' }, { status: 400 });

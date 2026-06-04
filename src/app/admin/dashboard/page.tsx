@@ -20,7 +20,7 @@ interface Evaluacion {
   archived?: boolean;
 }
 
-const SECRET_PASSCODE = "MOBILART2026";
+// La seguridad del administrador ahora se maneja en el servidor con cookies seguras HttpOnly.
 
 const formatTimeLeft = (seconds: number) => {
   if (seconds <= 0) return "0s";
@@ -40,9 +40,10 @@ const formatTimeLeft = (seconds: number) => {
 
 export default function AdminDashboard() {
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
-  const [passcodeAttempt, setPasscodeAttempt] = useState("");
+  const [usernameInput, setUsernameInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
   const [loginError, setLoginError] = useState("");
-  const [showPasscode, setShowPasscode] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [activeTab, setActiveTab] = useState<"grupos" | "sugerencias" | "evaluaciones" | "videos" | "encuestas">("grupos");
   const [sugTabFilter, setSugTabFilter] = useState<"active" | "archived">("active");
@@ -75,22 +76,28 @@ export default function AdminDashboard() {
   const [proyectoJoanUrl, setProyectoJoanUrl] = useState("");
   const [uploadingJoanTesis, setUploadingJoanTesis] = useState(false);
 
-  // Check auth on mount
+  // Cargar datos del dashboard cuando se autoriza
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const auth = localStorage.getItem("admin_authorized");
-      if (auth === "true") {
-        setIsAuthorized(true);
-      } else {
-        setIsAuthorized(false);
-      }
+    if (isAuthorized === true) {
+      fetch('/api/grupos?t=' + Date.now()).then(r => r.json()).then(setGrupos);
+      fetch('/api/sugerencias?t=' + Date.now()).then(r => r.json()).then(setSugerencias);
+      fetch('/api/evaluaciones?t=' + Date.now()).then(r => r.json()).then(setEvaluaciones);
+      fetch('/api/landscape-videos?t=' + Date.now()).then(r => r.json()).then(setLandscapeVideos);
+      fetch('/api/encuestas?t=' + Date.now()).then(r => r.json()).then(setSurveyHistory);
+      fetch('/api/proyecto-joan?t=' + Date.now()).then(r => r.json()).then(data => { if (data.success) setProyectoJoanUrl(data.url); });
     }
-    fetch('/api/grupos?t=' + Date.now()).then(r => r.json()).then(setGrupos);
-    fetch('/api/sugerencias?t=' + Date.now()).then(r => r.json()).then(setSugerencias);
-    fetch('/api/evaluaciones?t=' + Date.now()).then(r => r.json()).then(setEvaluaciones);
-    fetch('/api/landscape-videos?t=' + Date.now()).then(r => r.json()).then(setLandscapeVideos);
-    fetch('/api/encuestas?t=' + Date.now()).then(r => r.json()).then(setSurveyHistory);
-    fetch('/api/proyecto-joan?t=' + Date.now()).then(r => r.json()).then(data => { if (data.success) setProyectoJoanUrl(data.url); });
+  }, [isAuthorized]);
+
+  // Verificar auth e inicializar sockets al montar
+  useEffect(() => {
+    fetch('/api/admin/verify?t=' + Date.now())
+      .then(res => res.json())
+      .then(data => {
+        setIsAuthorized(data.authorized);
+      })
+      .catch(() => {
+        setIsAuthorized(false);
+      });
 
     // Inicializar conexión WebSocket
     const socketInstance = io();
@@ -123,14 +130,19 @@ export default function AdminDashboard() {
     socketInstance.on('survey_ended', () => {
       setLiveSurvey(null);
       setAdminSecondsLeft(0);
-      // Actualizar historial al finalizar encuesta
-      fetch('/api/encuestas').then(r => r.json()).then(setSurveyHistory);
     });
 
     return () => {
       socketInstance.disconnect();
     };
   }, []);
+
+  // Recargar historial al finalizar encuesta
+  useEffect(() => {
+    if (!liveSurvey && isAuthorized === true) {
+      fetch('/api/encuestas?t=' + Date.now()).then(r => r.json()).then(setSurveyHistory);
+    }
+  }, [liveSurvey, isAuthorized]);
 
   // Temporizador para el panel de administración
   useEffect(() => {
@@ -197,23 +209,38 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (passcodeAttempt === SECRET_PASSCODE) {
-      localStorage.setItem("admin_authorized", "true");
-      setIsAuthorized(true);
-      setLoginError("");
-      playChimeSound(true);
-    } else {
-      setLoginError("Código incorrecto. Verifica tus credenciales.");
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: usernameInput, password: passwordInput })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setIsAuthorized(true);
+        setLoginError("");
+        playChimeSound(true);
+      } else {
+        setLoginError(data.error || "Credenciales incorrectas.");
+        playChimeSound(false);
+      }
+    } catch {
+      setLoginError("Error de conexión al servidor.");
       playChimeSound(false);
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("admin_authorized");
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/admin/logout', { method: 'POST' });
+    } catch (e) {
+      console.error(e);
+    }
     setIsAuthorized(false);
-    setPasscodeAttempt("");
+    setUsernameInput("");
+    setPasswordInput("");
   };
 
   const handleUpdateGroup = async (id: string, data: Partial<GrupoData>) => {
@@ -636,17 +663,34 @@ export default function AdminDashboard() {
                 </p>
               </div>
 
-              <form onSubmit={handleLoginSubmit} className="space-y-6">
+              <form onSubmit={handleLoginSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-xs font-extrabold text-slate-800 uppercase">
+                    Usuario:
+                  </label>
+                  <input 
+                    type="text"
+                    value={usernameInput}
+                    onChange={e => {
+                      setUsernameInput(e.target.value);
+                      setLoginError("");
+                    }}
+                    placeholder="Usuario docente"
+                    className="w-full border-3 border-slate-900 px-4 py-3 rounded-2xl text-base font-bold text-slate-900 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-400/50 bg-white"
+                    required
+                  />
+                </div>
+
                 <div className="space-y-2 relative">
                   <label className="text-xs font-extrabold text-slate-800 uppercase">
-                    Código de Acceso:
+                    Contraseña:
                   </label>
                   <div className="relative">
                     <input 
-                      type={showPasscode ? "text" : "password"}
-                      value={passcodeAttempt}
+                      type={showPassword ? "text" : "password"}
+                      value={passwordInput}
                       onChange={e => {
-                        setPasscodeAttempt(e.target.value);
+                        setPasswordInput(e.target.value);
                         setLoginError("");
                       }}
                       placeholder="••••••••"
@@ -655,10 +699,10 @@ export default function AdminDashboard() {
                     />
                     <button
                       type="button"
-                      onClick={() => setShowPasscode(!showPasscode)}
+                      onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-4 top-[50%] -translate-y-1/2 text-slate-400 hover:text-slate-600 font-bold text-xs uppercase cursor-pointer"
                     >
-                      {showPasscode ? "Ocultar" : "Mostrar"}
+                      {showPassword ? "Ocultar" : "Mostrar"}
                     </button>
                   </div>
                 </div>
@@ -669,7 +713,7 @@ export default function AdminDashboard() {
                   </p>
                 )}
 
-                <div className="flex gap-3">
+                <div className="flex gap-3 pt-2">
                   <Link 
                     href="/" 
                     className="flex-1 text-center py-3.5 border-2 border-slate-900 bg-white hover:bg-slate-50 text-slate-800 font-extrabold rounded-2xl text-xs sm:text-sm active:translate-y-0.5 active:translate-x-0.5 transition-all shadow-[2px_2px_0_rgba(15,23,42,1)]"
