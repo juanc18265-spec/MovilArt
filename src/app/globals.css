@@ -1,0 +1,437 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #FFFFFF;
+  --color-surface: #F8FAFC;
+  --color-surface-2: #F1F5F9;
+  --color-border: #E2E8F0;
+  --color-text-main: #0F172A;
+  --color-text-muted: #475569;
+  --color-warm: #F97316;
+  --color-sage: #10B981;
+  --color-sky: #3B82F6;
+  --color-sand: #EAB308;
+  --color-clay: #EF4444;
+  --color-slate: #8B5CF6;
+}
+
+:root {
+  --background: #FFFFFF;
+  --foreground: #0F172A;
+}
+
+/* ═══ BASE ═══ */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  padding-top: 80px; /* Space for top menu */
+}
+
+::selection {
+  background: rgba(234, 179, 8, 0.4);
+  color: #0F172A;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 100px; }
+
+/* ═══ TYPOGRAPHY ═══ */
+.font-display {
+  font-family: 'Instrument Serif', 'Georgia', serif;
+  font-weight: 400;
+}
+
+/* ═══ ARTISTIC BACKGROUNDS ═══ */
+.bg-mesh-1 {
+  background: #FFFFFF;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(249, 115, 22, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 50% 10%, rgba(234, 179, 8, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 10% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 40%);
+}
+
+.bg-mesh-2 {
+  background: #F8FAFC;
+  background-image: 
+    radial-gradient(ellipse at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(239, 68, 68, 0.1) 0%, transparent 60%);
+}
+
+.bg-mesh-3 {
+  background: #F0FDF4;
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 100%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+}
+
+/* ═══ PREMIUM CARDS ═══ */
+@layer utilities {
+  .card-glass {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.05);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .card-glass:hover {
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(15, 23, 42, 0.1);
+  }
+
+  .card-organic {
+    background: #FFFFFF;
+    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px; /* Hand-drawn look */
+    border: 3px solid #1E293B;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+  }
+  .card-organic:hover {
+    transform: translateY(-4px) rotate(-1deg);
+    box-shadow: 8px 8px 0px rgba(59, 130, 246, 0.2);
+  }
+
+  .bg-mural-escolar {
+    /* Un blanco muy puro y apenas crema para que no se vea gris, sino VIVO y luminoso */
+    background-color: #ffffff;
+    /* Fondo SVG 2D de Salón de Arte: Lápices, Pinceles, Paletas, Manchas y Estrellas */
+    background-image: url("data:image/svg+xml,%3Csvg width='500' height='500' xmlns='http://www.w3.org/2000/svg'%3E%3C!-- Lápiz Naranja --%3E%3Cg transform='translate(80,80) rotate(45)' opacity='0.3'%3E%3Crect x='0' y='0' width='14' height='80' fill='%23F97316'/%3E%3Cpolygon points='0,80 7,100 14,80' fill='%23FCD34D'/%3E%3Cpolygon points='4,92 7,100 10,92' fill='%23333'/%3E%3Crect x='0' y='-15' width='14' height='15' fill='%23EF4444'/%3E%3Crect x='0' y='-3' width='14' height='3' fill='%239CA3AF'/%3E%3C/g%3E%3C!-- Paleta Morada --%3E%3Cg transform='translate(350,150) rotate(-20)' opacity='0.35'%3E%3Cpath d='M20,0 C50,-10 80,10 70,40 C60,70 10,60 0,30 C-10,0 0,0 20,0 Z' fill='%238B5CF6'/%3E%3Ccircle cx='20' cy='25' r='6' fill='%23fff'/%3E%3Ccircle cx='50' cy='15' r='7' fill='%23FBBF24'/%3E%3Ccircle cx='60' cy='35' r='6' fill='%2334D399'/%3E%3Ccircle cx='35' cy='45' r='7' fill='%23F87171'/%3E%3C/g%3E%3C!-- Pincel Verde --%3E%3Cg transform='translate(150,350) rotate(-60)' opacity='0.3'%3E%3Crect x='0' y='0' width='12' height='70' fill='%2310B981'/%3E%3Crect x='0' y='-10' width='12' height='10' fill='%239CA3AF'/%3E%3Cpath d='M-3,-30 C-3,-15 15,-15 15,-30 C15,-45 -3,-45 -3,-30' fill='%234B5563'/%3E%3Cpath d='M-1,-25 C-1,-15 13,-15 13,-25' fill='%23D97706'/%3E%3C/g%3E%3C!-- Regla Escolar --%3E%3Cg transform='translate(400,400) rotate(15)' opacity='0.25'%3E%3Crect x='0' y='0' width='100' height='20' fill='%23FCD34D' rx='3'/%3E%3Cline x1='10' y1='0' x2='10' y2='5' stroke='%23000' stroke-width='1.5'/%3E%3Cline x1='20' y1='0' x2='20' y2='8' stroke='%23000' stroke-width='1.5'/%3E%3Cline x1='30' y1='0' x2='30' y2='5' stroke='%23000' stroke-width='1.5'/%3E%3Cline x1='40' y1='0' x2='40' y2='8' stroke='%23000' stroke-width='1.5'/%3E%3Cline x1='50' y1='0' x2='50' y2='5' stroke='%23000' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='60' y2='8' stroke='%23000' stroke-width='1.5'/%3E%3Cline x1='70' y1='0' x2='70' y2='5' stroke='%23000' stroke-width='1.5'/%3E%3Cline x1='80' y1='0' x2='80' y2='8' stroke='%23000' stroke-width='1.5'/%3E%3Cline x1='90' y1='0' x2='90' y2='5' stroke='%23000' stroke-width='1.5'/%3E%3C/g%3E%3C!-- Manchas de pintura --%3E%3Cpath d='M250,50 C260,30 280,40 270,60 C280,80 250,70 240,60 C230,70 210,60 220,40 C210,20 240,30 250,50' fill='%233B82F6' opacity='0.15'/%3E%3Ccircle cx='280' cy='30' r='5' fill='%233B82F6' opacity='0.1'/%3E%3Ccircle cx='210' cy='70' r='8' fill='%233B82F6' opacity='0.15'/%3E%3Cpath d='M50,250 C60,230 80,240 70,260 C80,280 50,270 40,260 C30,270 10,260 20,240 C10,220 40,230 50,250' fill='%23EF4444' opacity='0.12'/%3E%3Ccircle cx='80' cy='230' r='6' fill='%23EF4444' opacity='0.1'/%3E%3Ccircle cx='20' cy='280' r='9' fill='%23EF4444' opacity='0.12'/%3E%3Cpath d='M450,250 C460,230 480,240 470,260 C480,280 450,270 440,260 C430,270 410,260 420,240 C410,220 440,230 450,250' fill='%2310B981' opacity='0.1'/%3E%3Ccircle cx='480' cy='230' r='5' fill='%2310B981' opacity='0.1'/%3E%3Ccircle cx='420' cy='280' r='7' fill='%2310B981' opacity='0.1'/%3E%3C!-- Destellos de creatividad --%3E%3Cpath d='M200,200 Q200,215 185,215 Q200,215 200,230 Q200,215 215,215 Q200,215 200,200' fill='%23FBBF24' opacity='0.4'/%3E%3Cpath d='M300,80 Q300,90 290,90 Q300,90 300,100 Q300,90 310,90 Q300,90 300,80' fill='%2334D399' opacity='0.4'/%3E%3Cpath d='M100,400 Q100,410 90,410 Q100,410 100,420 Q100,410 110,410 Q100,410 100,400' fill='%238B5CF6' opacity='0.3'/%3E%3Cpath d='M400,50 Q400,60 390,60 Q400,60 400,70 Q400,60 410,60 Q400,60 400,50' fill='%23F472B6' opacity='0.3'/%3E%3C!-- Círculos abstractos --%3E%3Ccircle cx='120' cy='150' r='30' stroke='%233B82F6' stroke-width='2' fill='none' opacity='0.2'/%3E%3Ccircle cx='380' cy='300' r='40' stroke='%23F97316' stroke-width='2' fill='none' opacity='0.15'/%3E%3Ccircle cx='250' cy='420' r='20' stroke='%23EC4899' stroke-width='3' fill='none' opacity='0.2'/%3E%3C/svg%3E");
+    background-size: 500px 500px;
+    background-attachment: fixed;
+  }
+}
+
+/* ═══ TEXT ═══ */
+.text-gradient {
+  background: linear-gradient(135deg, #F97316, #EF4444);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-subtle {
+  background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ═══ ANIMATIONS ═══ */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+  50% { transform: translateY(-20px) rotateX(10deg) rotateY(15deg) rotateZ(5deg); }
+}
+@keyframes float-fast {
+  0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+  50% { transform: translateY(-25px) rotateX(-15deg) rotateY(-10deg) rotateZ(-5deg); }
+}
+
+.anim-fade-up { animation: fade-up 0.8s ease-out both; }
+.anim-fade-in { animation: fade-in 0.6s ease-out both; }
+.anim-float { animation: float-slow 8s ease-in-out infinite; transform-style: preserve-3d; }
+.anim-float-fast { animation: float-fast 6s ease-in-out infinite; transform-style: preserve-3d; }
+
+.pseudo-3d {
+  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15)) drop-shadow(0 5px 10px rgba(0,0,0,0.05));
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+
+/* ═══ INTERSECTION OBSERVER REVEAL ═══ */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══ CLEAN BUTTONS ═══ */
+.btn-primary {
+  background: linear-gradient(135deg, #3B82F6, #2563EB);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 100px;
+  padding: 16px 36px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+}
+
+.btn-secondary {
+  background: #FFFFFF;
+  color: #3B82F6;
+  border: 2px solid #3B82F6;
+  border-radius: 100px;
+  padding: 14px 34px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.btn-secondary:hover {
+  background: #EFF6FF;
+  transform: translateY(-2px);
+}
+
+/* ═══ CANVAS PARTICLES ═══ */
+#particle-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+/* ═══ ARTE VIVO HERO ═══ */
+@keyframes bloom {
+  0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+  60% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+@keyframes brushstroke {
+  0%, 100% { transform: translateX(0) rotate(0deg) scale(1); }
+  25% { transform: translateX(15px) rotate(3deg) scale(1.02); }
+  50% { transform: translateX(-10px) rotate(-2deg) scale(0.98); }
+  75% { transform: translateX(8px) rotate(1deg) scale(1.01); }
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.03); opacity: 1; }
+}
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-15px) rotate(2deg); }
+  66% { transform: translateY(-8px) rotate(-1deg); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes pulse-glow {
+  0%, 100% { text-shadow: 0 0 4px currentColor; opacity: 0.7; }
+  50% { text-shadow: 0 0 16px currentColor, 0 0 30px currentColor; opacity: 1; }
+}
+
+.anim-bloom { animation: bloom 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.anim-brushstroke { animation: brushstroke 6s ease-in-out infinite; }
+.anim-breathe { animation: breathe 4s ease-in-out infinite; }
+.anim-hero-float { animation: hero-float 7s ease-in-out infinite; }
+
+.hero-vivo {
+  background: linear-gradient(135deg, #F0FDFA 0%, #FFFFFF 30%, #ECFEFF 60%, #F0FDFA 100%);
+  position: relative;
+  overflow: hidden;
+}
+.hero-vivo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 25%, rgba(20,184,166,0.12) 0%, transparent 40%),
+    radial-gradient(circle at 85% 75%, rgba(6,182,212,0.12) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(16,185,129,0.10) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* ═══ NUEVOS RETOS CARDS ═══ */
+.dot-map-card, .maze-card, .wordsearch-card {
+  background: #FFFFFF;
+  border-radius: 24px;
+  border: 1px solid #E2E8F0;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.dot-map-card:hover, .maze-card:hover, .wordsearch-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  border-color: #3B82F6;
+}
+
+.dot-map-card__header, .maze-card__header, .wordsearch-card__header { padding: 24px 24px 16px; }
+.dot-map-card__badge, .maze-card__badge, .wordsearch-card__badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.dot-map-card__badge { background: #DBEAFE; color: #2563EB; }
+.maze-card__badge { background: #D1FAE5; color: #059669; }
+.wordsearch-card__badge { background: #FEF3C7; color: #D97706; }
+
+.dot-map-card__title, .maze-card__title, .wordsearch-card__title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 6px;
+  font-family: 'Outfit', 'DM Sans', sans-serif;
+}
+.dot-map-card__desc, .maze-card__desc, .wordsearch-card__desc {
+  font-size: 14px;
+  color: #64748B;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.dot-map-card__canvas, .maze-card__canvas, .wordsearch-card__canvas {
+  padding: 0 16px 16px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dot-map-card__svg, .maze-card__svg { width: 100%; height: auto; max-height: 200px; }
+
+.dot-map-dot { transition: all 0.3s ease; }
+.dot-map-dot--active { filter: drop-shadow(0 0 4px currentColor); }
+.dot-map-line { transition: all 0.2s ease; }
+
+.maze-char-glow { animation: breathe 2s ease-in-out infinite; }
+
+/* Word search grid */
+.wordsearch-grid { display: flex; flex-direction: column; gap: 3px; }
+.wordsearch-row { display: flex; gap: 3px; }
+.wordsearch-cell {
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 13px;
+  border-radius: 6px; border: 1.5px solid transparent;
+  transition: all 0.4s ease;
+  font-family: 'DM Sans', monospace;
+}
+.wordsearch-cell--glow { animation: pulse-glow 1.5s ease-in-out infinite; }
+.wordsearch-words { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; justify-content: center; }
+.wordsearch-tag {
+  padding: 2px 10px; border-radius: 100px; font-size: 11px;
+  font-weight: 700; border: 1.5px solid #E2E8F0;
+  transition: all 0.3s ease;
+}
+.wordsearch-tag--active { transform: scale(1.1); }
+.wordsearch-tag--found { opacity: 0.6; }
+
+/* ═══ COLOMBIA VIVA — Tarjetas Dinámicas ═══ */
+@keyframes gallery-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-8px) rotate(0.5deg); }
+  50% { transform: translateY(-4px) rotate(-0.3deg); }
+  75% { transform: translateY(-10px) rotate(0.2deg); }
+}
+@keyframes shimmer-border {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(255,255,255,0.05), 0 8px 32px rgba(0,0,0,0.3); }
+  50% { box-shadow: 0 0 25px rgba(255,255,255,0.1), 0 12px 40px rgba(0,0,0,0.4); }
+}
+
+.colombia-card {
+  animation: gallery-float 6s ease-in-out infinite, glow-pulse 4s ease-in-out infinite;
+  transform-style: preserve-3d;
+  perspective: 800px;
+  position: relative;
+}
+.colombia-card:nth-child(2) { animation-delay: -1s; }
+.colombia-card:nth-child(3) { animation-delay: -2s; }
+.colombia-card:nth-child(4) { animation-delay: -0.5s; }
+.colombia-card:nth-child(5) { animation-delay: -1.5s; }
+.colombia-card:nth-child(6) { animation-delay: -2.5s; }
+
+.colombia-card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ffd700, #003893, #ce1126, #ffd700);
+  background-size: 300% 300%;
+  animation: shimmer-border 4s ease-in-out infinite;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.colombia-card:hover::before {
+  opacity: 1;
+}
+.colombia-card:hover {
+  animation-play-state: paused;
+  transform: translateY(-12px) scale(1.03);
+  z-index: 10;
+}
+
+.colombia-card__img {
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s ease;
+}
+.colombia-card:hover .colombia-card__img {
+  transform: scale(1.15);
+  filter: brightness(1.1) saturate(1.2);
+}
+
+.colombia-card__accent {
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.colombia-card:hover .colombia-card__accent {
+  width: 48px !important;
+}
+
+/* ═══ DUOLINGO EVALUATION ANIMATIONS ═══ */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  15%, 45%, 75% { transform: translateX(-6px); }
+  30%, 60%, 90% { transform: translateX(6px); }
+}
+
+.anim-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.15); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.2); }
+}
+
+.anim-heart {
+  animation: heartbeat 1.2s ease-in-out infinite;
+  display: inline-block;
+}
+
+.anim-sparkle {
+  animation: breathe 1.5s ease-in-out infinite;
+}
+

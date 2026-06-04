@@ -1,0 +1,568 @@
+{
+  "grupos": {
+    "primero": {
+      "id": "primero",
+      "name": "Grupo Primero (1° a 3°)",
+      "info": "Ruta de iniciación. Enfoque en la exploración sensorial de las formas, el color, las emociones primarias y la motricidad fina.",
+      "videos": [
+        {
+          "id": "vid1",
+          "url": "https://www.youtube.com/watch?v=F2Tz3mK2mFE",
+          "title": "Explorando los Colores Primarios y las Emociones en el Aula"
+        }
+      ],
+      "images": [],
+      "fichas": [
+        {
+          "id": "ficha1",
+          "url": "#",
+          "title": "Ficha Práctica: Mis Emociones en Colores (PDF)"
+        },
+        {
+          "id": "ficha2",
+          "url": "#",
+          "title": "Guía Docente: Trazos Libres y Texturas Orgánicas"
+        }
+      ],
+      "tests": [
+        {
+          "id": "1-1",
+          "question": "¿Cuáles son los tres colores primarios?",
+          "options": [
+            "Rojo, Azul y Amarillo",
+            "Verde, Naranja y Violeta",
+            "Blanco, Negro y Gris",
+            "Rojo, Verde y Azul"
+          ],
+          "correctAnswerIndex": 0
+        },
+        {
+          "id": "1-2",
+          "question": "¿Qué artículo de la Constitución dice que la educación es un derecho?",
+          "options": [
+            "Art. 1",
+            "Art. 67",
+            "Art. 100",
+            "Art. 42"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "1-3",
+          "question": "Si mezclas rojo y amarillo, ¿qué color obtienes?",
+          "options": [
+            "Verde",
+            "Morado",
+            "Naranja",
+            "Marrón"
+          ],
+          "correctAnswerIndex": 2
+        },
+        {
+          "id": "1-4",
+          "question": "Según la Ley 115, ¿es obligatoria el área de Educación Artística?",
+          "options": [
+            "No, es opcional",
+            "Solo en primaria",
+            "Sí, en todos los niveles",
+            "Solo si hay materiales"
+          ],
+          "correctAnswerIndex": 2
+        },
+        {
+          "id": "1-5",
+          "question": "¿Cómo se llama la textura que podemos tocar y sentir áspera?",
+          "options": [
+            "Textura Visual",
+            "Textura Táctil",
+            "Textura Sonora",
+            "Textura Mágica"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "1-6",
+          "question": "¿Qué emoción representa generalmente el color azul?",
+          "options": [
+            "Ira",
+            "Alegría",
+            "Tranquilidad o tristeza",
+            "Hambre"
+          ],
+          "correctAnswerIndex": 2
+        },
+        {
+          "id": "1-7",
+          "question": "El Decreto 1075 regula el sector educativo. ¿A qué ministerio pertenece?",
+          "options": [
+            "Ministerio de Salud",
+            "Ministerio de TIC",
+            "Ministerio de Educación",
+            "Ministerio de Cultura"
+          ],
+          "correctAnswerIndex": 2
+        },
+        {
+          "id": "1-8",
+          "question": "¿Qué material básico usamos para hacer un dibujo a lápiz?",
+          "options": [
+            "Arcilla",
+            "Óleo",
+            "Grafito",
+            "Acuarela"
+          ],
+          "correctAnswerIndex": 2
+        }
+      ],
+      "triviarteEnabled": false
+    },
+    "segundo": {
+      "id": "segundo",
+      "name": "Grupo Segundo (1° a 3°)",
+      "info": "Ruta de desarrollo pedagógico. Expresión colectiva, empatía y resolución de conflictos utilizando el color y la figura humana.",
+      "videos": [],
+      "images": [],
+      "fichas": [
+        {
+          "id": "ficha1",
+          "url": "#",
+          "title": "Ficha Práctica: Mi Silueta y la del Otro"
+        }
+      ],
+      "tests": [
+        {
+          "id": "2-1",
+          "question": "¿Qué son los colores fríos?",
+          "options": [
+            "Los que se usan en invierno",
+            "Azul, verde y violeta",
+            "Rojo, naranja y amarillo",
+            "Blanco y negro"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "2-2",
+          "question": "El Art. 23 de la Ley 115 establece áreas obligatorias. ¿Cuántas son?",
+          "options": [
+            "5 áreas",
+            "9 áreas",
+            "12 áreas",
+            "3 áreas"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "2-3",
+          "question": "¿Qué es el ritmo visual en una obra de arte?",
+          "options": [
+            "El sonido del tambor",
+            "La repetición de elementos y formas",
+            "El baile del pintor",
+            "Pintar muy rápido"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "2-4",
+          "question": "La autonomía escolar (Art. 77) permite a los colegios...",
+          "options": [
+            "Cerrar cuando quieran",
+            "Adaptar el currículo a su región",
+            "No dar clases de arte",
+            "Cobrar más pensiones"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "2-5",
+          "question": "¿Qué forma geométrica tiene 3 lados?",
+          "options": [
+            "Cuadrado",
+            "Círculo",
+            "Triángulo",
+            "Rectángulo"
+          ],
+          "correctAnswerIndex": 2
+        },
+        {
+          "id": "2-6",
+          "question": "¿Qué colores debes mezclar para obtener verde?",
+          "options": [
+            "Rojo y Azul",
+            "Amarillo y Rojo",
+            "Azul y Amarillo",
+            "Blanco y Negro"
+          ],
+          "correctAnswerIndex": 2
+        },
+        {
+          "id": "2-7",
+          "question": "¿Qué evalúa la Educación Artística según los lineamientos?",
+          "options": [
+            "Sensibilidad, Apreciación y Comunicación",
+            "Matemáticas y lectura",
+            "Solo la memoria",
+            "Velocidad al pintar"
+          ],
+          "correctAnswerIndex": 0
+        },
+        {
+          "id": "2-8",
+          "question": "Un dibujo hecho solo con líneas se llama...",
+          "options": [
+            "Pintura",
+            "Boceto o dibujo lineal",
+            "Escultura",
+            "Grabado"
+          ],
+          "correctAnswerIndex": 1
+        }
+      ],
+      "triviarteEnabled": false
+    },
+    "tercero": {
+      "id": "tercero",
+      "name": "Grupo Tercero (1° a 3°)",
+      "info": "Ruta de liderazgo y comunidad. Trabajo grupal en el aula mediante pequeños murales, tejido social y narración de historias locales.",
+      "videos": [],
+      "images": [],
+      "fichas": [
+        {
+          "id": "ficha1",
+          "url": "#",
+          "title": "Ficha Práctica: Dibujando el Paisaje de mi Colegio"
+        }
+      ],
+      "tests": [
+        {
+          "id": "3-1",
+          "question": "¿Qué es la perspectiva en el dibujo?",
+          "options": [
+            "Un tipo de pincel",
+            "Dar ilusión de profundidad",
+            "Pintar con muchos colores",
+            "Un marco de madera"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "3-2",
+          "question": "¿Cuáles son los colores complementarios del Rojo, Azul y Amarillo respectivamente?",
+          "options": [
+            "Verde, Naranja, Violeta",
+            "Blanco, Negro, Gris",
+            "Rojo oscuro, Azul claro, Amarillo ocre",
+            "Cyan, Magenta, Amarillo"
+          ],
+          "correctAnswerIndex": 0
+        },
+        {
+          "id": "3-3",
+          "question": "Según los Lineamientos Curriculares, ¿qué es el patrimonio cultural?",
+          "options": [
+            "Dinero del banco",
+            "Herencia cultural propia del pasado",
+            "Un museo en Europa",
+            "Solo las pinturas famosas"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "3-4",
+          "question": "El Artículo 70 de la Constitución habla sobre:",
+          "options": [
+            "El derecho a la huelga",
+            "El fomento de la cultura y la investigación",
+            "Los impuestos",
+            "El transporte público"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "3-5",
+          "question": "¿Qué es un autorretrato?",
+          "options": [
+            "Pintar un carro",
+            "Un retrato hecho por el mismo artista",
+            "Una foto de otra persona",
+            "Un dibujo sin rostro"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "3-6",
+          "question": "En teoría del color, el blanco y el negro se consideran:",
+          "options": [
+            "Colores cálidos",
+            "Colores fríos",
+            "Valores neutros (Luz y ausencia de luz)",
+            "Colores primarios"
+          ],
+          "correctAnswerIndex": 2
+        },
+        {
+          "id": "3-7",
+          "question": "¿Cuál de estas es una técnica húmeda?",
+          "options": [
+            "Crayones",
+            "Lápices de colores",
+            "Acuarela",
+            "Tiza pastel"
+          ],
+          "correctAnswerIndex": 2
+        },
+        {
+          "id": "3-8",
+          "question": "¿Qué promueve el Ministerio de Educación con el Arte?",
+          "options": [
+            "El pensamiento creativo y crítico",
+            "Aprender de memoria",
+            "Copiar exactamente igual",
+            "Solo entretenimiento"
+          ],
+          "correctAnswerIndex": 0
+        }
+      ],
+      "triviarteEnabled": true
+    },
+    "cuarto": {
+      "id": "cuarto",
+      "name": "Grupo Cuarto (4° a 5°)",
+      "info": "Ruta de consolidación de lenguajes. Exploración profunda de técnicas mixtas, volumétricas y análisis de identidades culturales diversas.",
+      "videos": [],
+      "images": [],
+      "fichas": [
+        {
+          "id": "ficha1",
+          "url": "#",
+          "title": "Guía de Volumen: Escultura con Arcilla o Plastilina"
+        }
+      ],
+      "tests": [
+        {
+          "id": "4-1",
+          "question": "¿Qué es el claroscuro?",
+          "options": [
+            "Una marca de pintura",
+            "Contraste entre luz y sombra para dar volumen",
+            "Pintar de noche",
+            "Un tipo de papel"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "4-2",
+          "question": "El Carnaval de Barranquilla es un ejemplo de:",
+          "options": [
+            "Arte efímero",
+            "Patrimonio Cultural Inmaterial",
+            "Arte Digital",
+            "Escultura Clásica"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "4-3",
+          "question": "¿Qué es el grabado en relieve?",
+          "options": [
+            "Pintar una pared",
+            "Tallar una matriz (madera/linóleo) para estampar",
+            "Hacer una escultura de barro",
+            "Dibujar en la arena"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "4-4",
+          "question": "Según el Decreto 1075, ¿quién define el Proyecto Educativo Institucional (PEI)?",
+          "options": [
+            "El presidente",
+            "El Alcalde",
+            "La propia comunidad educativa",
+            "Los padres de familia solos"
+          ],
+          "correctAnswerIndex": 2
+        },
+        {
+          "id": "4-5",
+          "question": "En un paisaje, ¿qué elementos van en el primer plano?",
+          "options": [
+            "Los más lejanos y borrosos",
+            "Los más grandes y detallados",
+            "Las nubes",
+            "El sol"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "4-6",
+          "question": "La escala de grises es un ejemplo de:",
+          "options": [
+            "Monocromía",
+            "Policromía",
+            "Colores cálidos",
+            "Colores complementarios"
+          ],
+          "correctAnswerIndex": 0
+        },
+        {
+          "id": "4-7",
+          "question": "¿Cuál es el principal objetivo de las leyes educativas colombianas respecto al arte?",
+          "options": [
+            "Formar pintores profesionales",
+            "Desarrollo integral y expresión humana",
+            "Ganar concursos internacionales",
+            "Decorar los colegios"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "4-8",
+          "question": "¿Qué técnica usa pedazos de papel rasgado o cortado?",
+          "options": [
+            "Acuarela",
+            "Óleo",
+            "Collage",
+            "Fresco"
+          ],
+          "correctAnswerIndex": 2
+        }
+      ],
+      "triviarteEnabled": true
+    },
+    "quinto": {
+      "id": "quinto",
+      "name": "Grupo Quinto (Grados 4° a 5°)",
+      "info": "Ruta de proyección social y expresión crítica. Desarrollo de portafolios artísticos para la paz y gestión comunitaria mediante intervenciones públicas y escolares.",
+      "videos": [
+        {
+          "id": "vid_quinto_1",
+          "url": "https://www.youtube.com/watch?v=R0_q8f3YwS4",
+          "title": "El Arte como Herramienta Pedagógica para la Paz y Reconciliación"
+        }
+      ],
+      "images": [],
+      "fichas": [
+        {
+          "id": "ficha_quinto_1",
+          "url": "https://www.mineducacion.gov.co/1759/articles-411706_recurso_2.pdf",
+          "title": "Lineamientos Oficiales del Ministerio: Orientaciones Curriculares (Descarga PDF)"
+        },
+        {
+          "id": "ficha_quinto_2",
+          "url": "#",
+          "title": "Guía Docente: Proyecto Mural 'El Color de la Reconciliación' (PDF)"
+        },
+        {
+          "id": "ficha_quinto_3",
+          "url": "#",
+          "title": "Taller Práctico: Texturas y Relaciones Espaciales Cerca-Lejos (PDF)"
+        }
+      ],
+      "tests": [
+        {
+          "id": "5-1",
+          "question": "Los 3 ejes de la Educación Artística según el MEN son:",
+          "options": [
+            "Pintar, Dibujar, Esculpir",
+            "Sensibilidad, Producción-Creación, Comprensión Crítica",
+            "Mirar, Copiar, Pegar",
+            "Cantar, Bailar, Actuar"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "5-2",
+          "question": "¿A qué se refiere la \"Comprensión Crítica\" en el arte?",
+          "options": [
+            "Criticar a los compañeros",
+            "Entender el contexto, la historia y el significado",
+            "Decir si algo es feo o bonito",
+            "Romper la obra"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "5-3",
+          "question": "El Artículo 71 de la Constitución garantiza:",
+          "options": [
+            "La libertad de búsqueda del conocimiento y la expresión artística",
+            "El derecho a viajar",
+            "La jornada laboral",
+            "El uso de internet"
+          ],
+          "correctAnswerIndex": 0
+        },
+        {
+          "id": "5-4",
+          "question": "¿Qué es una obra de arte conceptual?",
+          "options": [
+            "Una pintura muy realista",
+            "Una obra donde la idea o concepto es más importante que el objeto",
+            "Un dibujo hecho a lápiz",
+            "Un edificio antiguo"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "5-5",
+          "question": "¿Cuál de estos NO es un elemento básico de las artes plásticas?",
+          "options": [
+            "El Punto",
+            "La Línea",
+            "El Canto",
+            "El Volumen"
+          ],
+          "correctAnswerIndex": 2
+        },
+        {
+          "id": "5-6",
+          "question": "¿Para qué sirve el portafolio o álbum de estudiante?",
+          "options": [
+            "Para guardar el almuerzo",
+            "Evidenciar el proceso y progreso artístico",
+            "Para que el profesor lo bote",
+            "Solo para la nota final y olvidarlo"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "5-7",
+          "question": "¿Qué busca fomentar el estado con estímulos culturales?",
+          "options": [
+            "Que la gente se vuelva rica",
+            "Fortalecer la identidad nacional y la diversidad",
+            "Que se pinten las calles de un solo color",
+            "Que nadie más pinte"
+          ],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "5-8",
+          "question": "La técnica que usa pigmentos mezclados con agua sobre yeso húmedo se llama:",
+          "options": [
+            "Fresco",
+            "Acuarela",
+            "Óleo",
+            "Pastel"
+          ],
+          "correctAnswerIndex": 0
+        }
+      ],
+      "triviarteEnabled": false
+    }
+  },
+  "sugerencias": [],
+  "encuestas": [],
+  "evaluaciones": [],
+  "resetToken": "INITIAL_TOKEN_2026",
+  "landscapeVideos": {
+    "la-paloma-de-la-paz": "https://www.youtube.com/watch?v=F3GbeE35zWc",
+    "cano-cristales": "https://www.youtube.com/watch?v=9_C8T3xY1wM",
+    "valle-cocora": "https://www.youtube.com/watch?v=N6T2c2R6rM8",
+    "condor-andes": "https://www.youtube.com/watch?v=jWstL8X2gA0",
+    "mascaras-teatro": "https://www.youtube.com/watch?v=1F_UuHq-fR8",
+    "paleta-artista": "https://www.youtube.com/watch?v=Qh_i747C8uY"
+  }
+}
