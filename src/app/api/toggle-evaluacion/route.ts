@@ -11,7 +11,7 @@ export async function GET() {
   for (const g of data || []) {
     states[g.id] = g.triviarte_enabled || false;
   }
-  return NextResponse.json({ states });
+  return NextResponse.json({ success: true, states });
 }
 
 export async function POST(request: Request) {
