@@ -624,7 +624,7 @@ export default function NeuroInclusion() {
               <div className="bg-white/85 p-6 rounded-2xl border border-slate-200/60 shadow-xs flex-1 flex flex-col justify-between">
                 <div>
                   <h4 className="font-bold text-slate-900 text-sm sm:text-base uppercase tracking-wider mb-3 flex items-center gap-2 border-b border-slate-100 pb-2">
-                    <span>📲</span> Estrategia en MobilArt Studio
+                    <span>📲</span> Estrategia en MovilArt Studio
                   </h4>
                   <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 font-medium">
                     {currentCondition.practicalAppStrategy}
@@ -964,7 +964,7 @@ export default function NeuroInclusion() {
                             <p className="font-extrabold text-amber-400 mb-2">🧠 Reflexión Pedagógica:</p>
                             ¿Notaste lo cansado que es tener que filtrar voluntariamente el zumbido del aula, los tic-tacs de un reloj y tus propios pensamientos de fondo? Un estudiante con TDAH no carece de inteligencia; simplemente, sus "filtros de entrada" están saturados.
                             <br /><br />
-                            <strong>Mediación en MobilArt:</strong> Evitamos bloques densos de texto. Usamos micro-desafíos creativos táctiles que ofrecen dopamina inmediata y feedback de logros rápido.
+                            <strong>Mediación en MovilArt:</strong> Evitamos bloques densos de texto. Usamos micro-desafíos creativos táctiles que ofrecen dopamina inmediata y feedback de logros rápido.
                           </div>
 
                           <button
@@ -1174,7 +1174,7 @@ export default function NeuroInclusion() {
                             <br /><br />
                             Para un estudiante con dislexia, esto se **invierte**: gasta el **85%** de su esfuerzo en desenredar, rotar y anclar los símbolos en su mente, dejándole solo el **15%** para comprender. ¡Esto provoca agotamiento cerebral severo en tan solo unos minutos!
                             <br /><br />
-                            <strong>Mediación en MobilArt:</strong> Minimizamos los muros de texto. Las Galerías 3D de Colombia Viva y el color en vez de letras actúan como lenguajes alternos y liberadores.
+                            <strong>Mediación en MovilArt:</strong> Minimizamos los muros de texto. Las Galerías 3D de Colombia Viva y el color en vez de letras actúan como lenguajes alternos y liberadores.
                           </div>
 
                           <button
@@ -1384,7 +1384,7 @@ export default function NeuroInclusion() {
                             <p className="font-extrabold text-teal-400 mb-2">🧠 Reflexión Pedagógica:</p>
                             Para un estudiante con discalculia, los símbolos abstractos como <strong>"7"</strong> o <strong>"3"</strong> no representan instantáneamente un tamaño o volumen de objetos; son jeroglíficos resbaladizos y sin anclaje visual.
                             <br /><br />
-                            <strong>Mediación en MobilArt:</strong> 
+                            <strong>Mediación en MovilArt:</strong> 
                             En vez de memorizar fórmulas, enseñamos conceptos geométricos y ritmos de manera auditiva e intuitiva. Las proporciones de color de nuestro test demuestran que es posible resolver y diseñar con éxito sin verse obstaculizado por la ansiedad matemática.
                           </div>
 

@@ -591,7 +591,7 @@ export default function Home() {
       <footer className="py-16 px-6 bg-slate-900 border-t border-slate-800 pb-32">
         <div className="max-w-6xl mx-auto text-center md:flex md:items-center md:justify-between text-left">
           <div className="mb-8 md:mb-0">
-            <h2 className="text-3xl font-extrabold text-white mb-2" style={{ fontFamily: "'Outfit', 'DM Sans', sans-serif" }}>MobilArt</h2>
+            <h2 className="text-3xl font-extrabold text-white mb-2" style={{ fontFamily: "'Outfit', 'DM Sans', sans-serif" }}>MovilArt</h2>
             <p className="text-slate-400 font-medium">Construyendo Paz a través del Arte</p>
           </div>
           <div className="text-slate-500 font-medium space-y-2">

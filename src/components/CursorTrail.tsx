@@ -25,7 +25,7 @@ export default function CursorTrail() {
     let animationFrameId: number;
     let particles: Particle[] = [];
 
-    // Colors matching Colombia tricolor & MobilArt brand in soft pastel watercolors
+    // Colors matching Colombia tricolor & MovilArt brand in soft pastel watercolors
     const COLORS = [
       "rgba(20, 184, 166, 0.4)",  // Teal
       "rgba(6, 182, 212, 0.4)",  // Cyan
