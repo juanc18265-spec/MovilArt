@@ -7,7 +7,7 @@ const next = require('next');
 const { initializeWebSockets } = require('./server/websocket');
 
 const dev = process.env.NODE_ENV !== 'production';
-const hostname = 'localhost';
+const hostname = dev ? 'localhost' : '0.0.0.0';
 const port = parseInt(process.env.PORT, 10) || 3000;
 
 // Inicializa Next.js
@@ -30,8 +30,8 @@ app.prepare().then(() => {
   // Inicializa el servidor de WebSockets adjuntándolo al servidor HTTP
   initializeWebSockets(server);
 
-  // Escucha en el puerto 3000
-  server.listen(port, (err) => {
+  // Escucha en el puerto y host configurados
+  server.listen(port, hostname, (err) => {
     if (err) throw err;
     console.log(`> Servidor listo en http://${hostname}:${port}`);
     console.log(`> WebSockets funcionando en el mismo puerto.`);
