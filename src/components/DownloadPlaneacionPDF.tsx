@@ -43,7 +43,7 @@ export default function DownloadPlaneacionPDF({
       doc.setTextColor(255, 255, 255);
       doc.setFont("helvetica", "bold");
       doc.setFontSize(14);
-      doc.text("MOVILART STUDIO - PLANIFICACIÓN DIDÁCTICA OFICIAL", 20, y + 10);
+      doc.text("MOBILART STUDIO - PLANIFICACIÓN DIDÁCTICA OFICIAL", 20, y + 10);
 
       doc.setFont("helvetica", "normal");
       doc.setFontSize(10);
@@ -156,9 +156,9 @@ export default function DownloadPlaneacionPDF({
       // Footer
       doc.setFontSize(8);
       doc.setTextColor(148, 163, 184);
-      doc.text("MovilArt Studio © 2026 - Guías Escolares e Inclusión Artística Educativa", pageWidth / 2, 287, { align: "center" });
+      doc.text("MobilArt Studio © 2026 - Guías Escolares e Inclusión Artística Educativa", pageWidth / 2, 287, { align: "center" });
 
-      doc.save(`Planeacion_Clase_MovilArt_${grupoName.replace(/ /g, "_")}.pdf`);
+      doc.save(`Planeacion_Clase_MobilArt_${grupoName.replace(/ /g, "_")}.pdf`);
     } catch (e) {
       console.error("Error al exportar planeación en PDF", e);
       alert("Hubo un error al generar el PDF. Por favor inténtalo de nuevo.");

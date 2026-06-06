@@ -223,7 +223,7 @@ export default function DownloadNormativaPDF() {
       doc.setFont("Helvetica", "normal");
       doc.setFontSize(8);
       doc.setTextColor(100, 116, 139);
-      doc.text("Proyecto de Artes e Innovación Didáctica 'PROYECTO DE ARTES JOAN' - MovilArt Studio.", margin + 6, y + 11);
+      doc.text("Proyecto de Artes e Innovación Didáctica 'PROYECTO DE ARTES JOAN' - MobilArt Studio.", margin + 6, y + 11);
       doc.text("Generado de manera digital para su uso institucional, archivo curricular y planeaciones escolares.", margin + 6, y + 15);
       
       // Draw a small decorative circular stamp shape
@@ -234,7 +234,7 @@ export default function DownloadNormativaPDF() {
       doc.setFontSize(5);
       doc.setTextColor(13, 148, 136);
       doc.text("VALIDADO", pageWidth - margin - 20, y + 12.5);
-      doc.text("MOVILART", pageWidth - margin - 20, y + 15);
+      doc.text("MOBILART", pageWidth - margin - 20, y + 15);
 
       // Draw footers on all pages
       const totalPagesFinal = doc.getNumberOfPages();

@@ -29,7 +29,7 @@ export default function InstallPrompt() {
       // Stash the event so it can be triggered later.
       setDeferredPrompt(e);
       // Show the install promotion custom banner after a 3 second delay
-      const hasClosedPrompt = localStorage.getItem("movilart_prompt_dismissed");
+      const hasClosedPrompt = localStorage.getItem("mobilart_prompt_dismissed");
       if (!hasClosedPrompt) {
         setTimeout(() => {
           setShowPrompt(true);
@@ -38,7 +38,7 @@ export default function InstallPrompt() {
     };
 
     const handleAppInstalled = () => {
-      console.log('MovilArt was installed');
+      console.log('MobilArt was installed');
       setDeferredPrompt(null);
       setShowPrompt(false);
       setIsStandalone(true);
@@ -70,7 +70,7 @@ export default function InstallPrompt() {
 
   const handleDismissClick = () => {
     // Save state so we don't annoy the user on every reload
-    localStorage.setItem("movilart_prompt_dismissed", "true");
+    localStorage.setItem("mobilart_prompt_dismissed", "true");
     setShowPrompt(false);
   };
 
@@ -81,8 +81,8 @@ export default function InstallPrompt() {
       <div className="flex items-center gap-3">
         <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-emerald-500/20 bg-white flex-shrink-0 flex items-center justify-center">
           <Image
-            src="/images/logo_movilart.png"
-            alt="Logo MovilArt"
+            src="/images/logo_mobilart.png"
+            alt="Logo MobilArt"
             width={48}
             height={48}
             className="object-contain"
@@ -90,11 +90,11 @@ export default function InstallPrompt() {
         </div>
         <div className="flex-1">
           <h4 className="font-extrabold text-sm sm:text-base leading-tight text-white flex items-center gap-1.5">
-            Instalar MovilArt
+            Instalar MobilArt
             <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-bold tracking-wide uppercase">App</span>
           </h4>
           <p className="text-xs text-slate-300 mt-0.5 leading-relaxed">
-            Ancla MovilArt en tu pantalla de inicio para jugar y regular tus emociones con rapidez, sin anuncios y sin navegador.
+            Ancla MobilArt en tu pantalla de inicio para jugar y regular tus emociones con rapidez, sin anuncios y sin navegador.
           </p>
         </div>
       </div>

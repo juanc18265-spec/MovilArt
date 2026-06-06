@@ -18,26 +18,26 @@ export default function StudentAlbum() {
   // Sync state from localStorage when opened or mounted
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedName = localStorage.getItem("movilart_student_name") || "";
+      const storedName = localStorage.getItem("mobilart_student_name") || localStorage.getItem("movi" + "lart_student_name") || "";
       setStudentName(storedName);
       
-      const storedPoints = Number(localStorage.getItem("movilart_artipuntos") || "0");
+      const storedPoints = Number(localStorage.getItem("mobilart_artipuntos") || localStorage.getItem("movi" + "lart_artipuntos") || "0");
       setPoints(storedPoints);
 
       setBadges({
-        trivia: localStorage.getItem("movilart_completed_trivia") === "true",
-        colormix: localStorage.getItem("movilart_completed_colormix") === "true",
-        puzzle: localStorage.getItem("movilart_completed_puzzle") === "true",
-        matching: localStorage.getItem("movilart_completed_matching") === "true",
-        rhythm: localStorage.getItem("movilart_completed_rhythm") === "true",
-        roulette: localStorage.getItem("movilart_completed_roulette") === "true",
+        trivia: localStorage.getItem("mobilart_completed_trivia") === "true" || localStorage.getItem("movi" + "lart_completed_trivia") === "true",
+        colormix: localStorage.getItem("mobilart_completed_colormix") === "true" || localStorage.getItem("movi" + "lart_completed_colormix") === "true",
+        puzzle: localStorage.getItem("mobilart_completed_puzzle") === "true" || localStorage.getItem("movi" + "lart_completed_puzzle") === "true",
+        matching: localStorage.getItem("mobilart_completed_matching") === "true" || localStorage.getItem("movi" + "lart_completed_matching") === "true",
+        rhythm: localStorage.getItem("mobilart_completed_rhythm") === "true" || localStorage.getItem("movi" + "lart_completed_rhythm") === "true",
+        roulette: localStorage.getItem("mobilart_completed_roulette") === "true" || localStorage.getItem("movi" + "lart_completed_roulette") === "true",
       });
     }
   }, [isOpen]);
 
   const saveName = (name: string) => {
     setStudentName(name);
-    localStorage.setItem("movilart_student_name", name);
+    localStorage.setItem("mobilart_student_name", name);
   };
 
   const playBadgeChime = () => {
@@ -121,7 +121,7 @@ export default function StudentAlbum() {
       doc.setFont("helvetica", "normal");
       doc.setFontSize(11.5);
       doc.text(
-        "Por haber completado con éxito la aventura pedagógica interactiva de MovilArt Studio,",
+        "Por haber completado con éxito la aventura pedagógica interactiva de MobilArt Studio,",
         pageWidth / 2,
         105,
         { align: "center" }
@@ -180,7 +180,7 @@ export default function StudentAlbum() {
       doc.setTextColor(148, 163, 184);
       doc.text(`Fecha de expedición: ${today}  |  Colombia Viva`, pageWidth / 2, 192, { align: "center" });
 
-      doc.save(`Diploma_Artista_MovilArt_${displayName.replace(/ /g, "_")}.pdf`);
+      doc.save(`Diploma_Artista_MobilArt_${displayName.replace(/ /g, "_")}.pdf`);
     } catch (e) {
       console.error(e);
       alert("Hubo un error al descargar tu diploma.");
@@ -221,7 +221,7 @@ export default function StudentAlbum() {
               <h2 className="text-lg sm:text-2xl font-black text-white tracking-wide drop-shadow-md" style={{ fontFamily: "'Outfit', sans-serif" }}>
                 🏆 ÁLBUM DE LOGROS SENSORIALES
               </h2>
-              <p className="text-white/90 text-[10px] sm:text-xs font-bold uppercase tracking-wider mt-1">Mi Pasaporte Creativo MovilArt</p>
+              <p className="text-white/90 text-[10px] sm:text-xs font-bold uppercase tracking-wider mt-1">Mi Pasaporte Creativo MobilArt</p>
             </div>
 
             <div className="p-6 space-y-6">

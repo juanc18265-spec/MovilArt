@@ -731,7 +731,7 @@ export default function AdminDashboard() {
 
               <div className="text-center mt-6 pt-4 border-t border-slate-100">
                 <span className="text-[10px] text-slate-400 font-semibold block leading-normal">
-                  Este panel permite modificar contenidos en tiempo real. Utiliza el código del docente para administrar el currículo e imágenes de MovilArt Studio.
+                  Este panel permite modificar contenidos en tiempo real. Utiliza el código del docente para administrar el currículo e imágenes de MobilArt Studio.
                 </span>
               </div>
             </div>

@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import { cookies } from 'next/headers';
 
-const JWT_SECRET = process.env.SUPABASE_SERVICE_ROLE_KEY || 'movilart-local-fallback-secret-key-2026';
+const JWT_SECRET = process.env.SUPABASE_SERVICE_ROLE_KEY || 'mobilart-local-fallback-secret-key-2026';
 
 export interface AdminSession {
   username: string;

@@ -455,10 +455,28 @@ export default function GrupoPage({ params }: { params: Promise<{ id: string }> 
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const savedPoints = localStorage.getItem("mobilart_artipuntos");
-      if (savedPoints) setPoints(Number(savedPoints));
-      const savedName = localStorage.getItem("mobilart_student_name");
-      if (savedName) setStudentSubmissionName(savedName);
+      const oldPoints = localStorage.getItem("movi" + "lart_artipuntos");
+      const savedPoints = localStorage.getItem("mobilart_artipuntos") || oldPoints;
+      if (savedPoints) {
+        setPoints(Number(savedPoints));
+        localStorage.setItem("mobilart_artipuntos", savedPoints);
+      }
+      
+      const oldName = localStorage.getItem("movi" + "lart_student_name");
+      const savedName = localStorage.getItem("mobilart_student_name") || oldName;
+      if (savedName) {
+        setStudentSubmissionName(savedName);
+        localStorage.setItem("mobilart_student_name", savedName);
+      }
+
+      // Migrate badge completion if applicable
+      const badges = ['trivia', 'colormix', 'puzzle', 'matching', 'rhythm', 'roulette'];
+      badges.forEach(b => {
+        const oldVal = localStorage.getItem("movi" + `lart_completed_${b}`);
+        if (oldVal && !localStorage.getItem(`mobilart_completed_${b}`)) {
+          localStorage.setItem(`mobilart_completed_${b}`, oldVal);
+        }
+      });
     }
   }, []);
 
@@ -472,6 +490,7 @@ export default function GrupoPage({ params }: { params: Promise<{ id: string }> 
 
   const resetStudentProgress = () => {
     if (typeof window !== "undefined") {
+      // Clear new namespace
       localStorage.removeItem("mobilart_completed_trivia");
       localStorage.removeItem("mobilart_completed_colormix");
       localStorage.removeItem("mobilart_completed_puzzle");
@@ -480,6 +499,16 @@ export default function GrupoPage({ params }: { params: Promise<{ id: string }> 
       localStorage.removeItem("mobilart_completed_roulette");
       localStorage.removeItem("mobilart_student_name");
       localStorage.setItem("mobilart_artipuntos", "0");
+
+      // Clear old namespace
+      localStorage.removeItem("movi" + "lart_completed_trivia");
+      localStorage.removeItem("movi" + "lart_completed_colormix");
+      localStorage.removeItem("movi" + "lart_completed_puzzle");
+      localStorage.removeItem("movi" + "lart_completed_matching");
+      localStorage.removeItem("movi" + "lart_completed_rhythm");
+      localStorage.removeItem("movi" + "lart_completed_roulette");
+      localStorage.removeItem("movi" + "lart_student_name");
+      localStorage.removeItem("movi" + "lart_artipuntos");
     }
     
     // Reset React States

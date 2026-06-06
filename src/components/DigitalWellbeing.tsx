@@ -17,7 +17,7 @@ const FAMILY_TIPS: Tip[] = [
   },
   {
     title: "El Celular como Puente de Co-creación",
-    desc: "Evita el uso de pantallas como 'anestesia' o 'niñera'. Si tu hijo usa el móvil, que sea para crear juntos: tomar fotos artísticas de la naturaleza o jugar minijuegos interactivos de MovilArt que promuevan la conversación.",
+    desc: "Evita el uso de pantallas como 'anestesia' o 'niñera'. Si tu hijo usa el móvil, que sea para crear juntos: tomar fotos artísticas de la naturaleza o jugar minijuegos interactivos de MobilArt que promuevan la conversación.",
     icon: "🎨",
   },
   {
@@ -130,7 +130,7 @@ export default function DigitalWellbeing() {
               </span>
             </h2>
             <p className="text-slate-600 text-base md:text-lg max-w-3xl mx-auto font-medium leading-relaxed">
-              El celular no es un enemigo, sino un catalizador que requiere **intencionalidad**. En lugar de la prohibición absoluta, el proyecto <strong>MovilArt</strong> propone usar la tecnología como un puente interactivo hacia la creación física, la autorregulación socioemocional y la socialización en el mundo real.
+              El celular no es un enemigo, sino un catalizador que requiere **intencionalidad**. En lugar de la prohibición absoluta, el proyecto <strong>MobilArt</strong> propone usar la tecnología como un puente interactivo hacia la creación física, la autorregulación socioemocional y la socialización en el mundo real.
             </p>
           </div>
         </Reveal>
@@ -194,7 +194,7 @@ export default function DigitalWellbeing() {
                       <span>🎨</span> El Celular como Lienzo e Instrumento Co-creativo
                     </h3>
                     <p className="text-teal-900/80 font-medium mb-6 leading-relaxed">
-                      Cuando la tecnología se usa con propósito, se convierte en un maravilloso amplificador del arte tradicional. Los recursos interactivos (como la música ambiente colombiana, la captura fotográfica de obras y los minijuegos pedagógicos de MovilArt) estimulan la imaginación y conectan al niño con el mundo físico.
+                      Cuando la tecnología se usa con propósito, se convierte en un maravilloso amplificador del arte tradicional. Los recursos interactivos (como la música ambiente colombiana, la captura fotográfica de obras y los minijuegos pedagógicos de MobilArt) estimulan la imaginación y conectan al niño con el mundo físico.
                     </p>
                     <ul className="space-y-4">
                       <li className="flex gap-3 text-sm text-teal-900/70 font-semibold">
@@ -375,7 +375,7 @@ export default function DigitalWellbeing() {
             <div className="text-center mt-12 bg-white border border-slate-200/80 py-5 px-8 rounded-full max-w-2xl mx-auto shadow-2xs flex items-center justify-center gap-3">
               <span className="text-xl">🕊️</span>
               <p className="text-xs sm:text-sm text-slate-700 font-extrabold">
-                &quot;El arte educa el ojo que la pantalla hiperestimulada a veces ciega.&quot; — MovilArt Pedagógico.
+                &quot;El arte educa el ojo que la pantalla hiperestimulada a veces ciega.&quot; — MobilArt Pedagógico.
               </p>
             </div>
 
